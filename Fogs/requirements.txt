@@ -1,0 +1,6 @@
+django
+psycopg2
+django-debug-toolbar
+dadata
+django_extensions
+djangorestframework

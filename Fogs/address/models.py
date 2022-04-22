@@ -1,0 +1,28 @@
+from django.db import models
+
+
+class Address(models.Model):
+    address = models.CharField('address', max_length=150)
+    postal_code = models.CharField('postal_code', max_length=30)
+    country = models.CharField('country', max_length=150)
+    federal_district = models.CharField('federal_district', max_length=150)
+    region_type = models.CharField('region_type', max_length=100)
+    region = models.CharField('region', max_length=150)
+    area_type = models.CharField('area_type', max_length=150)
+    area = models.CharField('area', max_length=150)
+    city_type = models.CharField('city_type', max_length=150)
+    city = models.CharField('city', max_length=150)
+    settlement_type = models.CharField('settlement_type', max_length=150)
+    settlement = models.CharField('settlement', max_length=150)
+    kladr_id = models.CharField('kladr_id', max_length=30)
+    fias_id = models.CharField('fias_id', max_length=150)
+    fias_level = models.IntegerField('fias_level')
+    capital_marker = models.IntegerField('capital_marker')
+    okato = models.CharField('okato', max_length=100)
+    oktmo = models.CharField('oktmo', max_length=100)
+    tax_office = models.CharField('tax_office', max_length=100)
+    timezone = models.CharField('timezone', max_length=150)
+    geo_lat = models.FloatField('geo_lat')
+    geo_lon = models.FloatField('geo_lon')
+    population = models.CharField('population', max_length=30)
+    foundation_year = models.CharField('foundation_year', max_length=100)

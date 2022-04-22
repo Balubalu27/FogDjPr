@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  pg_db:
+    image: postgres:14.2-alpine
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+  django:
+    container_name: fogstr_pr
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: bash -c "python /usr/src/fogs/manage.py migrate --noinput &&
+             python /usr/src/fogs/manage.py runscript load_csv &&
+             python /usr/src/fogs/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/usr/src/fogs
+    ports:
+      - 8000:8000
+    depends_on:
+      - pg_db
+    env_file:
+      - ./.env.dev
+volumes:
+  pg_data:

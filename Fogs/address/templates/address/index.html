@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+
+</head>
+<body>
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+            <p>
+                <button type="submit">Поиск</button>
+            </p>
+    </form>
+
+    {% if answer %}
+        <div id="map" style="width:500px; height:400px"></div>
+
+        <script type="text/javascript">
+            DG.then(function () {
+                let latitude;
+                let longitude;
+
+                const map = DG.map('map', {
+                    center: [{{ answer.geo_lat }}, {{ answer.geo_lon }}],
+                    zoom: 11
+                });
+                DG.marker([{{ answer.geo_lat }}, {{ answer.geo_lon }}]).addTo(map).bindPopup('{{ answer.result }}');
+
+                {% for i_obj in obj_list %}
+                    latitude = {{ i_obj.geo_lat }};
+                    longitude = {{ i_obj.geo_lon }};
+                    DG.marker([latitude, longitude]).addTo(map).bindPopup('{{ i_obj.address }}');
+                {% endfor %}
+            });
+        </script>
+
+        <p>Результат поиска:</p>
+        <ul>
+            <li>{{ answer.result }}</li>
+        </ul>
+
+        <p>В радиусе найдено {{ obj_list.count }} результата(ов):</p>
+
+        <ul>
+            {% for i_obj in obj_list %}
+                <li>{{ i_obj.address }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</body>
+</html>
